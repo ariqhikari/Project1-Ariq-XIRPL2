@@ -10,5 +10,9 @@ package classes;
  * @author WIN 10
  */
 public class Ramen extends Menu {
-    public Ramen (String namaRamen, double harga) {}
+    public Ramen (String namaRamen, double harga) {
+        setNamaMenu(namaRamen);
+        setHarga(harga);
+        setKategori("Ramen");
+    }
 }

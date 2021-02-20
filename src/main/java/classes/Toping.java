@@ -10,5 +10,9 @@ package classes;
  * @author WIN 10
  */
 public class Toping extends Menu {
-    public Toping(String nama, double harga) {}
+    public Toping(String namaToping, double harga) {
+      setNamaMenu(namaToping);
+      setHarga(harga);
+      setKategori("Toping");
+    }
 }

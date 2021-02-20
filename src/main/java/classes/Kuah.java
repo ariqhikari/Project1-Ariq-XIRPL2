@@ -10,5 +10,9 @@ package classes;
  * @author WIN 10
  */
 public class Kuah extends Menu {
-    public Kuah(String nama) {}
+    public Kuah(String namaKuah) {
+      setNamaMenu(namaKuah);
+      setHarga(0);
+      setKategori("Kuah");
+    }
 }
