@@ -14,21 +14,27 @@ public class Menu {
     private double harga;
     private String kategori;
     
-    public void setNamaMenu(String nama) {
-        
-    }
-    
     public String getNamaMenu () {
-        return "";
+        return namaMenu;
     }
     
-    public void setHarga (double harga) {}
+    public void setNamaMenu(String namaMenu) {
+        this.namaMenu = namaMenu;
+    }
     
     public double getHarga () {
-        return 0;
+        return harga;
+    }
+    
+    void setHarga (double harga) {
+        this.harga = harga;
     }
     
     public String getKategori () {
-        return "";
+        return kategori;
+    }
+    
+    public void setKategori (String kategori) {
+        this.kategori = kategori;
     }
 }
