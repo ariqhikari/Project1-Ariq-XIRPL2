@@ -6,12 +6,16 @@
 package main;
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 import classes.DaftarMenu;
 import classes.Kuah;
+import classes.Menu;
 import classes.Minuman;
+import classes.Pesanan;
 import classes.Ramen;
 import classes.Toping;
+import classes.Transaksi;
 
 /**
  *
@@ -34,6 +38,87 @@ public class MainAplikasiKasir {
         MainAplikasiKasir app = new MainAplikasiKasir();
         // Tampilkan daftar menu
         app.generateDaftarMenu();
+        
+        // Mulai transaksi
+        System.out.println("======== TRANSAKSI ========");
+        
+        // Ambil data transaksi
+        System.out.println("No Transaksi : ");
+        no_transaksi = input.next();
+        System.out.println("Pemesan : ");
+        nama_pemesan = input.next();
+        System.out.println("Tanggal : [dd-mm-yyyy] ");
+        tanggal = input.next();
+        System.out.println("Makan ditempat? [Y/N] ");
+        makan_ditempat = input.next();
+        
+        if(makan_ditempat.equalsIgnoreCase("Y")) {
+            System.out.println("Nomor Meja : ");
+            no_meja = input.next();
+        }
+        
+        // Buat transaksi baru
+        Transaksi trans = new Transaksi(no_transaksi, nama_pemesan, tanggal, no_meja);
+        System.out.println("======== TRANSAKSI ========");
+        int no_kuah;
+        do {
+            // Ambil menu berdasarkan nomor urut yang dipilih
+            Menu menu_yang_dipilih = app.daftarMenu.pilihMenu();
+            int jumlah_pesanan = (int) app.cekInputNumber("Jumlah : ");
+            
+            // Buat pesanan
+            Pesanan pesanan = new Pesanan(menu_yang_dipilih, jumlah_pesanan);
+            trans.tambahPesanan(pesanan);
+            
+            // Khusus untuk menu ramen, pesanan kuahnya langsung diinput juga
+            if(menu_yang_dipilih.getKategori().equalsIgnoreCase("Ramen")){
+                // Looping sesuai jumlah pesanan ramen
+                int jumlah_ramen = jumlah_pesanan;
+                do{
+                    // Ambil objek menu berdasarkan nomor yang dipilih
+                    Menu kuah_yang_dipilih = app.daftarMenu.pilihKuah();
+                    
+                    System.out.println("Level : [0-5] ");
+                    String level = input.next();
+                    
+                    // Validasi jumlah kuah tidak boleh lebih besar dari ramen
+                    int jumlah_kuah = 0;
+                    do{
+                        jumlah_kuah = (int) app.cekInputNumber("Jumlah : ");
+                        
+                        if(jumlah_kuah > jumlah_ramen) {
+                            System.out.println("[Err] Jumlah kuah melebih jumlah ramen yang sudah dipesan");
+                        } else {
+                            break;
+                        }
+                    } while(jumlah_kuah > jumlah_ramen);
+                    
+                    // Set pesanan kuah
+                    Pesanan pesanan_kuah = new Pesanan(kuah_yang_dipilih, jumlah_kuah);
+                    pesanan_kuah.setKeterangan("Level " + level);
+                    
+                    // Tambahkan pesanan kuah ke transaksi
+                    trans.tambahPesanan(pesanan_kuah);
+                    
+                    // Hitung jumlah ramen yang belum dipesan kuah nya
+                    jumlah_ramen -= jumlah_kuah;  
+                } while(jumlah_ramen > 0);
+            } else {
+                // Jika keterangan tidak diisi tulis -
+                System.out.println("Keterangan : [- jika kosong] ");
+                keterangan = input.next();
+            }
+            
+            // Cek jika keterangan diisi selain "-" set ke pesanan
+            if(!keterangan.equals("-")){
+                pesanan.setKeterangan(keterangan);
+            }
+            
+            // Konfirmasi, mau tambah pesanan atau tidak
+            System.out.println("Tambah pesanan lagi? [Y/N] ");
+            pesan_lagi = input.next();
+        } while (pesan_lagi.equalsIgnoreCase("Y"));
+        
     }
     
     public void generateDaftarMenu () {
@@ -57,5 +142,18 @@ public class MainAplikasiKasir {
         daftarMenu.tambahMenu(new Minuman("Vietnam Dripp", 14000));
         
         daftarMenu.tampilDaftarMenu();
+    }
+    
+    public double cekInputNumber(String label){
+       try {
+           Scanner get_input = new Scanner(System.in);
+           System.out.println(label);
+           double nilai = get_input.nextDouble();
+           
+           return nilai;
+       } catch(InputMismatchException ex) {
+            System.out.println("Harap masukkan angka");
+            return cekInputNumber(label);
+        }
     }
 }
