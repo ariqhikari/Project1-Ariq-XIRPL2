@@ -19,6 +19,7 @@ public class Transaksi {
     private ArrayList<Pesanan> pesanan;
     private double uangBayar;
     private double pajak;
+    private double biayaService;
     private double totalBayar;
     
     public Transaksi (String noTransaksi, String namaPemesan, String tanggal, String noMeja) {
@@ -39,16 +40,70 @@ public class Transaksi {
 //    }
     
     public ArrayList<Pesanan> getSemuaPesanan () {
-        return pesanan;
+        return this.pesanan;
     }
     
-    public double hitungTotalBayar () {
-        return 0;
+    public void cetakStruk () {
+        System.out.println("\n======== Jigoku Ramen ========");
+        System.out.println("No Transaksi : " + noTransaksi);
+        System.out.println("Pemesan : " + this.namaPemesan);
+        System.out.println("Tanggal : " + this.tanggal);
+        
+        // Cek jika nomor meja kosong, berarti take away
+        if(this.noMeja.equals("")){
+            this.noMeja = "Take Away";
+        }
+        
+        System.out.println("Meja : " + this.noMeja);
+        System.out.println("============================");
+        for (int i = 0; i < pesanan.size(); i++) {
+            Pesanan psn = pesanan.get(i);
+            Menu m = psn.getMenu();
+            String pesanan = psn.getJumlah() + " " + m.getNamaMenu() + "\t" + (m.getHarga() * psn.getJumlah());
+            
+            // Jika pesanan kuah, tambah spasi di awal 2
+            if(m.getKategori().equals("Kuah")){
+                pesanan = "  " + pesanan;
+            }
+            
+            // Tampilkan pesanan
+            System.out.println(pesanan);
+        }
     }
     
-    public double hitungKembalian () {
-        return 0;
+    // Tambahkan
+    public void setBiayaService(double biayaService){
+        this.biayaService = biayaService;
     }
     
-    public void cetakStruk () {}
+    public void setPajak(double pajak){
+        this.pajak = pajak;
+    }
+    
+    public double hitungTotalPesanan(){
+        for (int i = 0; i < pesanan.size(); i++) {
+            Pesanan psn = pesanan.get(i);
+            double harga = psn.getMenu().getHarga();
+            this.totalBayar += (harga * psn.getJumlah());
+        }
+        
+        return this.totalBayar;
+    }
+    
+    public double hitungPajak(){
+        return this.totalBayar * this.pajak;
+    }
+    
+    public double hitungBiayaService(){
+        return this.totalBayar * this.biayaService;
+    }
+    
+    public double hitungTotalBayar(double pajak, double biayaService){
+        this.totalBayar = this.totalBayar + pajak + biayaService;
+        return this.totalBayar;
+    }
+    
+    public double hitungKembalian (double uangBayar) {
+        return uangBayar - this.totalBayar;
+    }
 }

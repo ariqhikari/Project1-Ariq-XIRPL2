@@ -16,9 +16,17 @@ public class Pesanan {
     
     public Pesanan (Menu menu, int jumlah) {}
     
+    public Menu getMenu () {
+        return this.menu;
+    }
+    
+    public int getJumlah () {
+        return this.jumlah;
+    }
+  
     public void setKeterangan (String keterangan) {}
     
     public String getKeterangan () {
-        return "";
+        return this.keterangan;
     }
 }
