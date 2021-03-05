@@ -19,11 +19,18 @@ import classes.Toping;
  */
 public class MainAplikasiKasir {
     public DaftarMenu daftarMenu;
+    // Tambahkan
+    public static double PAJAK_PPN = 0.10;
+    public static double BIAYA_SERVICE = 0.05;
+    // End Of Tambahkan
     
     public static void main (String[] args) {
         // Inisialisasi kelas Scanner untuk mengambil input dari keyboard
         Scanner input = new Scanner(System.in);
-        
+        // Tambahkan 
+        String no_transaksi, nama_pemesan, tanggal, no_meja = "";
+        String transaksi_lagi = "", pesan_lagi = "", keterangan = "", makan_ditempat; 
+        // End Of Tambahkan
         MainAplikasiKasir app = new MainAplikasiKasir();
         // Tampilkan daftar menu
         app.generateDaftarMenu();
