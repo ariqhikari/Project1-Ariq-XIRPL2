@@ -61,7 +61,6 @@ public class MainAplikasiKasir {
             // Buat transaksi baru
             Transaksi trans = new Transaksi(no_transaksi, nama_pemesan, tanggal, no_meja);
             System.out.println("======== TRANSAKSI ========");
-            int no_kuah;
             do {
                 // Ambil menu berdasarkan nomor urut yang dipilih
                 Menu menu_yang_dipilih = app.daftarMenu.pilihMenu();
@@ -111,7 +110,7 @@ public class MainAplikasiKasir {
                 }
 
                 // Cek jika keterangan diisi selain "-" set ke pesanan
-                if(!keterangan.equals("-")){
+                if(!keterangan.equalsIgnoreCase("-")){
                     pesanan.setKeterangan(keterangan);
                 }
 
@@ -139,7 +138,7 @@ public class MainAplikasiKasir {
             if(makan_ditempat.equalsIgnoreCase("Y")){
                 trans.setBiayaService(BIAYA_SERVICE);
                 biaya_service = trans.hitungBiayaService();
-                System.out.println("Biaya Service 5% : \t\t" + biaya_service);
+                System.out.println("Biaya Service 5% : \t" + biaya_service);
             }
 
             // Tampilkan total bayar
@@ -152,6 +151,11 @@ public class MainAplikasiKasir {
                 double uang_bayar = app.cekInputNumber("Uang Bayar : \t\t");
 
                 kembalian = trans.hitungKembalian(uang_bayar);
+                if(kembalian < 0){
+                    System.out.println("[Err] Uang anda kurang");
+                } else{
+                    System.out.println("Kembalian \t\t" + kembalian);
+                }
             } while(kembalian < 0);
 
             System.out.println("Lakukan Transaksi Lagi? [Y/N] ");

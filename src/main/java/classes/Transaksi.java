@@ -59,15 +59,15 @@ public class Transaksi {
         for (int i = 0; i < pesanan.size(); i++) {
             Pesanan psn = pesanan.get(i);
             Menu m = psn.getMenu();
-            String pesanan = psn.getJumlah() + " " + m.getNamaMenu() + "\t" + (m.getHarga() * psn.getJumlah());
+            String pesananStruk = psn.getJumlah() + " " + m.getNamaMenu() + "\t" + (m.getHarga() * psn.getJumlah());
             
             // Jika pesanan kuah, tambah spasi di awal 2
             if(m.getKategori().equals("Kuah")){
-                pesanan = "  " + pesanan;
+                pesananStruk = "  " + pesananStruk;
             }
             
             // Tampilkan pesanan
-            System.out.println(pesanan);
+            System.out.println(pesananStruk);
         }
     }
     
